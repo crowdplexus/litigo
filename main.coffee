@@ -11,6 +11,8 @@ app.configure ->
   app.set 'views', __dirname + '/views'
   app.set exp.static __dirname + '/public'
 
+# Database Connect
+
 # Hello World!
 app.get '/', (req, res) ->
   res.render 'layout'
@@ -21,3 +23,5 @@ server.listen 1337, ->
 # Socket.IO
 io.sockets.on 'connection', (socket) ->
   console.log 'Someone connected!'
+
+
