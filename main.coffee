@@ -4,6 +4,9 @@ app = exp()
 http = require 'http'
 server = http.createServer(app)
 io = require('socket.io').listen server
+mongoose = require("mongoose")
+
+db = mongoose.createConnection("localhost", "litigo")
 
 # App Configuration for all Environments
 app.configure ->
@@ -12,19 +15,25 @@ app.configure ->
   app.set exp.static __dirname + '/public'
 
 # Database Connect - Mongoose
-mongoose = require("mongoose")
-db = mongoose.createConnection("localhost", "litigo")
-schema = mongoose.Schema(thread: "string", nickname: "string", email: "string", msg: "string", date: "string")
+schema = mongoose.Schema
+  thread: "string"
+  author:
+    nickname: "string"
+    email: "string"
+  msg: "string"
+  date: "string"
 
 # Database add comment function
-newComment = (thread, msg, nickname, email, date) ->
+newComment = (data, cb) ->
 	Comment = db.model("Comment", schema)
-	comment = new Comment(thread: thread, nickname: nickname, email: email, msg: msg, date: date)
-	comment.save (err) ->
-		if (err)
-			return false
-		else
-			return true
+	comment = new Comment
+    thread: data.thread
+    author:
+      nickname: data.author.nickname
+      email: data.email
+    msg: data.msg
+    date: data.date
+	comment.save cb
 
 # Database get comment function
 getComment = (thread) ->
@@ -33,8 +42,6 @@ getComment = (thread) ->
 		thread: thread
 	, "nickname email msg date", (err, data) ->
 		console.log data
-
-
 
 # Router
 app.get '/embed/:shortname', (req, res) ->
