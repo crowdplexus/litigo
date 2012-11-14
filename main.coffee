@@ -12,6 +12,29 @@ app.configure ->
   app.set exp.static __dirname + '/public'
 
 # Database Connect - Mongoose
+mongoose = require("mongoose")
+db = mongoose.createConnection("localhost", "litigo")
+schema = mongoose.Schema(thread: "string", nickname: "string", email: "string", msg: "string", date: "string")
+
+# Database add comment function
+newComment = (thread, msg, nickname, email, date) ->
+	Comment = db.model("Comment", schema)
+	comment = new Comment(thread: thread, nickname: nickname, email: email, msg: msg, date: date)
+	comment.save (err) ->
+		if (err)
+			return false
+		else
+			return true
+
+# Database get comment function
+getComment = (thread) ->
+	Comment = db.model("Comment", schema)
+	Comment.find
+		thread: thread
+	, "nickname email msg date", (err, data) ->
+		console.log data
+
+
 
 # Router
 app.get '/embed/:shortname', (req, res) ->
