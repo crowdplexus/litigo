@@ -11,7 +11,7 @@ app.configure ->
   app.set 'views', __dirname + '/views'
   app.set exp.static __dirname + '/public'
 
-# Database Connect
+# Database Connect - Mongoose
 
 # Hello World!
 app.get '/', (req, res) ->
