@@ -23,10 +23,12 @@ So long as men can breathe or eyes can see, So long lives this and this gives li
         <div id="thread"></div>
         <script type="text/javascript">
           var shortname = 'koostudios';
-          var location = window.location;
-          (function() {
-            var litigo = document.createElement('script');
-            litigo.src = 'http://localhost:1337/embed/' + shortname + 
+          var path = window.location.pathname;
+          var title = document.title;
+          var litigo = document.createElement('iframe');
+          litigo.src = 'http://localhost:1337/embed/' + shortname + '/?t=' + title + '&p=' + path;
+          alert('http://localhost:1337/embed/' + shortname + '/?t=' + title + '&p=' + path);
+          document.getElementById('thread').appendChild(litigo);
         </script>
       </article>
     </section>
