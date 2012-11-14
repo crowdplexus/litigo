@@ -5,8 +5,8 @@ html
     title= "Hello World!"
     link(rel= "stylesheet", href= "/css/style.css")
   body
-    textarea(id= "comment")
-    input(type="submit", value="Comment as...") 
+    textarea#commentBox
+    input#submit(type="submit", value="Comment as...") 
     section
       - for comment in comments
         article
