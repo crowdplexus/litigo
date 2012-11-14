@@ -13,8 +13,8 @@ app.configure ->
 
 # Database Connect - Mongoose
 
-# Hello World!
-app.get '/', (req, res) ->
+# Router
+app.get '/embed/:id', (req, res) ->
   res.render 'layout'
 
 server.listen 1337, ->
@@ -23,5 +23,3 @@ server.listen 1337, ->
 # Socket.IO
 io.sockets.on 'connection', (socket) ->
   console.log 'Someone connected!'
-
-
