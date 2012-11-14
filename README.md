@@ -1,6 +1,6 @@
 # Litigo
 
-A real-time commenting system for blogs and websites. Written with CoffeeScript, Node.JS and Socket.IO.
+A simple, real-time commenting system for blogs and websites. Written with CoffeeScript, Node.JS and Socket.IO.
 
 *Latest Version:* 0.0.1
 
