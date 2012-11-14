@@ -40,13 +40,12 @@ getComment = (thread, cb) ->
 	Comment = db.model("Comment", schema)
 	Comment.find
 		thread: thread
-	, "author.nickname author.email msg date", (err, data) ->
-		cb = data
+	, "author.nickname author.email msg date", cb
 
 # Hash Function
 hashReq = (shortname, hash, hash2, cb) ->
 	cb = shortname + '/' + hash + hash2
-		
+
 # Simple Temp random number genorator
 randNum = () ->
 	randomnumber = Math.floor(Math.random() * 11)
@@ -54,22 +53,17 @@ randNum = () ->
 		
 # Router
 app.get '/embed/:shortname', (req, res) ->
-	hashReq(req.params.shortname, req.query.p, req.query.t, (cb) ->
-		getComment(hash, (data) ->
-			res.render 'layout',
-				shortname: shortname
-				hash: hash
-				comment: data
-		)
-	)
-
-
-
+  hash = req.params.shortname + '/' + req.query.p + req.query.t
+  getComment 'test/index.htm2', (err, data) ->
+    if (err)
+      throw err
+    res.render 'layout',
+      comments: data
 	
 # Temp function to add comment
 app.get '/add', (req,res) ->
 	res.send 'hello'
-	data = 
+	data =
 		thread: 'test/index.htm2'
 		author:
 			nickname: "Jon-test2"+randNum()
@@ -83,7 +77,8 @@ app.get '/add', (req,res) ->
 # Temp function to get comment
 app.get '/get', (req,res) ->
 	res.send 'hello'
-	getComment 'test/index.htm2'
+	getComment 'test/index.htm2', (err, data) ->
+    console.log data
 		
 server.listen 1337, ->
   console.log 'Server started on port 1337'
