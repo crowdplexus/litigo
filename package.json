@@ -1,0 +1,11 @@
+{
+  "name": "litigo",
+  "description": "A real-time commenting system for blogs and websites. Written with CoffeeScript, Node.JS and Socket.IO.",
+  "version": "0.0.1",
+  "author": "Alexander Yuen & Jonathon Neaves",
+  "dependencies": {
+    "coffee-script": "~1.4.0",
+    "socket.io": "~0.9.11",
+    "mongoose": "~3.4.0"
+  }
+}
