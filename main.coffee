@@ -14,8 +14,12 @@ app.configure ->
 # Database Connect - Mongoose
 
 # Router
-app.get '/embed/:id', (req, res) ->
-  res.render 'layout'
+app.get '/embed/:shortname', (req, res) ->
+  shortname = req.params.shortname
+  hash = req.query.p + req.query.t
+  res.render 'layout',
+    shortname: shortname
+    hash: hash
 
 server.listen 1337, ->
   console.log 'Server started on port 1337'

@@ -3,7 +3,17 @@
   <head>
     <meta charset="utf-8">
     <title>Hello World!</title>
-    <script></script>
+    <style>
+      body {
+        width: 800px;
+        margin: 50px auto;
+        font-family: 'Helvetica Neue', 'Arial', Sans-serif;
+      }
+      
+      h1 {
+        font-weight: normal;
+      }
+    </style>
   </head>
   <body>
     <header>
@@ -22,13 +32,17 @@ So long as men can breathe or eyes can see, So long lives this and this gives li
         </p>
         <div id="thread"></div>
         <script type="text/javascript">
-          var shortname = 'koostudios';
-          var path = window.location.pathname;
-          var title = document.title;
-          var litigo = document.createElement('iframe');
+          (function() {
+          var shortname = 'koostudios',
+              path = window.location.pathname,
+              title = document.title,
+              litigo = document.createElement('iframe')          
+          litigo.frameBorder=0;
+          litigo.scrolling= "no";
+          litigo.style.width="100%";
           litigo.src = 'http://localhost:1337/embed/' + shortname + '/?t=' + title + '&p=' + path;
-          alert('http://localhost:1337/embed/' + shortname + '/?t=' + title + '&p=' + path);
           document.getElementById('thread').appendChild(litigo);
+          })();
         </script>
       </article>
     </section>
