@@ -1,6 +1,9 @@
 # Variables
 exp = require 'express'
 app = exp()
+http = require 'http'
+server = http.createServer(app)
+io = require('socket.io').listen server
 
 # App Configuration for all Environments
 app.configure ->
@@ -10,11 +13,11 @@ app.configure ->
 
 # Hello World!
 app.get '/', (req, res) ->
-  res.send 'hello world'
+  res.render 'layout'
 
-# Socket.IO
-io = require('socket.io').listen 1337, ->
+server.listen 1337, ->
   console.log 'Server started on port 1337'
 
+# Socket.IO
 io.sockets.on 'connection', (socket) ->
-  socket.emit 'msg', {hello: 'world'}
+  console.log 'Someone connected!'
