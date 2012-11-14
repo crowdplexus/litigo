@@ -30,7 +30,7 @@ newComment = (data, cb) ->
     thread: data.thread
     author:
       nickname: data.author.nickname
-      email: data.email
+      email: data.author.email
     msg: data.msg
     date: data.date
 	comment.save cb
@@ -40,7 +40,7 @@ getComment = (thread) ->
 	Comment = db.model("Comment", schema)
 	Comment.find
 		thread: thread
-	, "nickname email msg date", (err, data) ->
+	, "author.nickname author.email msg date", (err, data) ->
 		console.log data
 
 # Router
@@ -51,6 +51,25 @@ app.get '/embed/:shortname', (req, res) ->
     shortname: shortname
     hash: hash
 
+# Temp function to add comment
+app.get '/add', (req,res) ->
+	res.send 'hello'
+	data = 
+		thread: 'test'
+		author:
+			nickname: "Jon-test2"
+			email: "email@something.com"
+		msg: "Hi!"
+		date: "Sometime"
+
+	newComment data, (err) ->
+		console.log 'callback'
+
+# Temp function to get comment
+app.get '/get', (req,res) ->
+	res.send 'hello'
+	getComment 'test'
+		
 server.listen 1337, ->
   console.log 'Server started on port 1337'
 
