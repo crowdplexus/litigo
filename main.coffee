@@ -10,7 +10,7 @@ app.configure ->
 
 # Hello World!
 app.get '/', (req, res) ->
-  res.send 'hello world'
+  res.send 'hello world!'
 
 # Socket.IO
 io = require('socket.io').listen 1337, ->
