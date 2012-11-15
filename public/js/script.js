@@ -30,15 +30,11 @@ $(document).ready(function() {
 
 
   // Distribute!
-  socket.on('distribute', function(data) {
-    $('#comments').append('<article><img src="' + data.author.avatar + '"><span class="nick">' + data.author.nickname + '</span><span class="date">' + data.date + '</span><div class="post-body"><p>' + data.msg + '</p></div></article>');
-    
-
-  });
-
-  // Submit form
-  $('#submit').on('click', function() {
-    
+  socket.on('distribute', function(data) { $('#comments').append('<article><img src="' + data.author.avatar + '"><span class="nick">' + data.author.nickname + '</span><span class="date">' + data.date + '</span><div class="post-body"><p>' + data.msg + '</p></div></article>'); parent.postMessage($(document).height(), "*"); 
+  }); 
+  
+  // Submit form 
+  $('#submit').on('click', function() { 
     // Checks to see if anyting is empty (in which it would have the placeholder)
     var empty = false;
     $('input[type=text], #commentBox').each(function(i) {
@@ -60,7 +56,11 @@ $(document).ready(function() {
       };
 
       // Emit data back to server
-      socket.emit('comment', data);
+      socket.emit('comment', data, function() {
+        $('input[type="text"], #commentBox').each(function(i) {
+          $(this).val($(this).data('placeholder'));
+        });
+      });
     }
   });
 });

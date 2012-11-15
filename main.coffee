@@ -90,8 +90,8 @@ io.sockets.on 'connection', (socket) ->
     
   socket.on 'comment', (data) ->
     if (data)
-      socket.broadcast.to(data.thread).emit 'distribute', data
-			data.date = new Date()
-			data.author.avatar = "http://www.gravatar.com/avatar/#{crypto.createHash('md5').update(data.author.email).digest('hex')}"
+      data.date = new Date()
+      data.author.avatar = "http://www.gravatar.com/avatar/#{crypto.createHash('md5').update(data.author.email).digest('hex')}"
+      socket.to(data.thread).emit 'distribute', data
       newComment data, (err) ->
         console.log data
