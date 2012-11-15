@@ -9,6 +9,7 @@ $(document).ready(function() {
 
   // Connect to socket.IO
   var socket = io.connect('http://localhost:1337');
+  socket.emit('switch', $('body').data('hash'));
 
   // Common functions namespaced to Litigo
   var Litigo = {
@@ -27,6 +28,14 @@ $(document).ready(function() {
     if (!$(this).val()) $(this).val($(this).data('placeholder')).css('color', '#AAA');
   });
 
+
+  // Distribute!
+  socket.on('distribute', function(data) {
+    $('#comments').append('<article><img src="' + data.author.avatar + '"><span class="nick">' + data.author.nickname + '</span><span class="date">' + data.date + '</span><div class="post-body"><p>' + data.msg + '</p></div></article>');
+    
+
+  });
+
   // Submit form
   $('#submit').on('click', function() {
     
@@ -42,6 +51,7 @@ $(document).ready(function() {
     } else {
       // Combine everything into data
       var data = {
+        thread: $('body').data('hash'),
         author: {
           nickname: $('#nick').val(),
           email: $('#email').val()
@@ -49,8 +59,8 @@ $(document).ready(function() {
         msg: $('#commentBox').val()
       };
 
-      // TODO post here
-      
+      // Emit data back to server
+      socket.emit('comment', data);
     }
   });
 });

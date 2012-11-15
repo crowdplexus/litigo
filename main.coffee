@@ -32,7 +32,7 @@ newComment = (data, cb) ->
     thread: data.thread
     author:
       nickname: data.author.nickname
-      email: data.author.email
+      email: data.author.emai
       avatar: "http://www.gravatar.com/avatar/#{crypto.createHash('md5').update(data.author.email).digest('hex')}"
     msg: data.msg
     date: new Date()
@@ -52,7 +52,7 @@ randNum = () ->
 app.get '/embed/:shortname', (req, res) ->
   res.header 'Access-Control-Allow-Origin', '*'
   hash = req.params.shortname + '/' + crypto.createHash('md5').update(req.query.p + req.query.t).digest('hex')
-  getComment 'test/index.htm3', (err, data) ->
+  getComment hash, (err, data) ->
     if (err)
       throw err
     res.render 'layout',
@@ -84,11 +84,11 @@ server.listen 1337, ->
 
 # Socket.IO
 io.sockets.on 'connection', (socket) ->
-  console.log 'Someone connected!'
-	io.sockets.on 'switch', (room) ->
-		io.sockets.join room
-	
-	io.sockets.on 'comment', (data) ->
-		io.sockets.broadcast.to(data.thread).emit 'comment', data
-		newComment data, (err) ->
-			console.log 'callback'
+  socket.on 'switch', (room) ->
+    socket.join room
+    
+  socket.on 'comment', (data) ->
+    if (data)
+      socket.broadcast.to(data.thread).emit 'distribute', data
+      newComment data, (err) ->
+        console.log data
