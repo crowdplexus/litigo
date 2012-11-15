@@ -47,6 +47,12 @@ getComment = (thread, cb) ->
 randNum = () ->
 	randomnumber = Math.floor(Math.random() * 11)
 	return randomnumber
+	
+# Add user function
+addUser = (data, cb) ->
+	
+
+# Find user function
 		
 # Router
 app.get '/embed/:shortname', (req, res) ->
