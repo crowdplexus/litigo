@@ -25,6 +25,16 @@ schema = mongoose.Schema
   msg: "string"
   date: "string"
 
+# Database schema for users
+schemaUser = mongoose.Schema
+  type: "string"
+  author:
+    nickname: "string"
+    email: "string"
+    avatar: "string"
+  pass: "string"
+  date: "string"
+
 # Database add comment function
 newComment = (data, cb) ->
 	Comment = db.model("Comment", schema)
@@ -50,7 +60,17 @@ randNum = () ->
 	
 # Add user function
 addUser = (data, cb) ->
-	
+	User = db.model("User", schemaUser)
+	data.date = new Date()
+	data.new.pass = data.date + data.pass
+	user = new User
+		type: 'user'
+		author:
+			nickname: data.author.nickname
+			email: data.author.email
+			avatar: "http://www.gravatar.com/avatar/#{crypto.createHash('md5').update(data.author.email).digest('hex')}"
+		pass: crypto.createHash('sha512').update(data.new.pass).digest('hex')
+		date: data.date
 
 # Find user function
 		
@@ -58,7 +78,7 @@ addUser = (data, cb) ->
 app.get '/embed/:shortname', (req, res) ->
   res.header 'Access-Control-Allow-Origin', '*'
   hash = req.params.shortname + '/' + crypto.createHash('md5').update(req.query.p + req.query.t).digest('hex')
-  getComment 'test/index.htm3', (err, data) ->
+  getComment hash, (err, data) ->
     if (err)
       throw err
     res.render 'layout',
@@ -73,8 +93,9 @@ app.get '/add', (req,res) ->
 		author:
 			nickname: "Jon-test2"+randNum()
 			email: "koo.studios@gmail.com"
+			avatar: "http://www.gravatar.com/avatar/#{crypto.createHash('md5').update(data.author.email).digest('hex')}"
 		msg: "Hi!"
-		date: "Sometime"+randNum()
+		date: new Date()
 
 	newComment data, (err) ->
 		console.log 'callback'
@@ -90,11 +111,13 @@ server.listen 1337, ->
 
 # Socket.IO
 io.sockets.on 'connection', (socket) ->
-  console.log 'Someone connected!'
-	io.sockets.on 'switch', (room) ->
-		io.sockets.join room
-	
-	io.sockets.on 'comment', (data) ->
-		io.sockets.broadcast.to(data.thread).emit 'comment', data
-		newComment data, (err) ->
-			console.log 'callback'
+  socket.on 'switch', (room) ->
+    socket.join room
+    
+  socket.on 'comment', (data) ->
+    if (data)
+      socket.broadcast.to(data.thread).emit 'distribute', data
+			data.date = new Date()
+			data.author.avatar = "http://www.gravatar.com/avatar/#{crypto.createHash('md5').update(data.author.email).digest('hex')}"
+      newComment data, (err) ->
+        console.log data
