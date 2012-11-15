@@ -85,3 +85,10 @@ server.listen 1337, ->
 # Socket.IO
 io.sockets.on 'connection', (socket) ->
   console.log 'Someone connected!'
+	io.sockets.on 'switch', (room) ->
+		io.sockets.join room
+	
+	io.sockets.on 'comment', (data) ->
+		io.sockets.broadcast.to(data.thread).emit 'comment', data
+		newComment data, (err) ->
+			console.log 'callback'
