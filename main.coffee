@@ -60,6 +60,7 @@ app.get '/embed/:shortname', (req, res) ->
     if (err)
       throw err
     res.render 'layout',
+      hash: hash
       comments: data
 	
 # Temp function to add comment

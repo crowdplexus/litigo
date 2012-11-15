@@ -55,10 +55,16 @@ input[type="text"]:focus,
   font-weight: bold;
   text-shadow: 0 1px 0 #FFF;
   box-shadow: inset 0 1px 1px #FFF;
+  cursor: pointer;
 }
 
   #submit:hover {
-
+    border: 1px solid #AAA;
+    background: #DFDFDF;
+    background: linear-gradient(top, #F1F1F1, #DFDFDF);
+    background: -webkit-linear-gradient(top,#F1F1F1, #DFDFDF);
+    background:    -moz-linear-gradient(top,#F1F1F1, #DFDFDF);
+    background:      -o-linear-gradient(top,#F1F1F1, #DFDFDF);
   }
 
 section#comments article {
