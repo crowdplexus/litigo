@@ -25,16 +25,6 @@ schema = mongoose.Schema
   msg: "string"
   date: "string"
 
-# Database schema for users
-schemaUser = mongoose.Schema
-  type: "string"
-  author:
-    nickname: "string"
-    email: "string"
-    avatar: "string"
-  pass: "string"
-  date: "string"
-
 # Database add comment function
 newComment = (data, cb) ->
 	Comment = db.model("Comment", schema)
@@ -57,22 +47,6 @@ getComment = (thread, cb) ->
 randNum = () ->
 	randomnumber = Math.floor(Math.random() * 11)
 	return randomnumber
-	
-# Add user function
-addUser = (data, cb) ->
-	User = db.model("User", schemaUser)
-	data.date = new Date()
-	data.new.pass = data.date + data.pass
-	user = new User
-		type: 'user'
-		author:
-			nickname: data.author.nickname
-			email: data.author.email
-			avatar: "http://www.gravatar.com/avatar/#{crypto.createHash('md5').update(data.author.email).digest('hex')}"
-		pass: crypto.createHash('sha512').update(data.new.pass).digest('hex')
-		date: data.date
-
-# Find user function
 		
 # Router
 app.get '/embed/:shortname', (req, res) ->
