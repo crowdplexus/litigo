@@ -1,3 +1,81 @@
-textarea {
-  border: 1px solid #555;
+* {
+  box-sizing: border-box;
+  font-family: "Helvetica Neue", "Arial", Sans-serif;
 }
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+section#form {
+  border-bottom: 1px solid #EEE;
+}
+
+input[type="text"],
+#commentBox {
+  margin: 0 10px 10px 0;
+  background: #F3F3F3;
+  border: 1px solid #AAA;
+  border-top: 1px solid #CCC;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 2px #DDD;
+  outline: none;
+  font-size: 1em;
+  padding: 5px;
+  color: #333;
+}
+
+input[type="text"]:focus,
+#commentBox:focus {
+  border: 1px solid #777;
+  border-top: 1px solid 999;
+}
+
+  #commentBox {
+    display: block;
+    width: 100%;
+    height: 90px;
+    padding: 5px;
+    resize: vertical;
+  }
+
+#submit {
+  float: right;
+  margin: 0;
+  padding: 6px 18px;
+  border: 1px solid #CCC;
+  border-radius: 3px;
+  background: #DDD;
+  background: linear-gradient(top, #EEE, #DDD);
+  background: -webkit-linear-gradient(top, #EEE, #DDD);
+  background:    -moz-linear-gradient(top, #EEE, #DDD);
+  background:      -o-linear-gradient(top, #EEE, #DDD);
+  font-size: 0.9em;
+  font-weight: bold;
+  text-shadow: 0 1px 0 #FFF;
+  box-shadow: inset 0 1px 1px #FFF;
+}
+
+  #submit:hover {
+
+  }
+
+section#comments article {
+  width: 100%;
+  padding: 20px 10px;
+  padding-left: 100px;
+  border-bottom: 1px solid #EEE;
+}
+
+  section#comments article .nick {
+    font-weight: bold;
+    font-size: 0.9em;
+  }
+
+  section#comments article .date {
+    display: inline-block;
+    margin-left: 10px;
+    font-size: 0.8em;
+    color: #888;
+  }

@@ -4,7 +4,8 @@ app = exp()
 http = require 'http'
 server = http.createServer(app)
 io = require('socket.io').listen server
-mongoose = require("mongoose")
+crypto = require 'crypto'
+mongoose = require 'mongoose'
 
 db = mongoose.createConnection("localhost", "litigo")
 
@@ -12,7 +13,7 @@ db = mongoose.createConnection("localhost", "litigo")
 app.configure ->
   app.set 'view engine', 'jade'
   app.set 'views', __dirname + '/views'
-  app.set exp.static __dirname + '/public'
+  app.use exp.static __dirname + '/public'
 
 # Database Connect - Mongoose
 schema = mongoose.Schema
@@ -20,27 +21,28 @@ schema = mongoose.Schema
   author:
     nickname: "string"
     email: "string"
+    avatar: "string"
   msg: "string"
   date: "string"
 
 # Database add comment function
 newComment = (data, cb) ->
+# gravatar = crypto.createHash('md5').update(data.author.email).digest('hex')
 	Comment = db.model("Comment", schema)
 	comment = new Comment
     thread: data.thread
     author:
       nickname: data.author.nickname
       email: data.author.email
+      avatar: "http://www.gravat.com/avatar/#{gravatar}"
     msg: data.msg
-    date: data.date
+    date: new Date()
 	comment.save cb
 
 # Database get comment function
 getComment = (thread, cb) ->
 	Comment = db.model("Comment", schema)
-	Comment.find
-		thread: thread
-	, "author.nickname author.email msg date", cb
+	Comment.find {thread: thread}, cb
 
 # Hash Function
 hashReq = (shortname, hash, hash2, cb) ->

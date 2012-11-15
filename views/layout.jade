@@ -5,17 +5,20 @@ html
     title= "Hello World!"
     link(rel= "stylesheet", href= "/css/style.css")
   body
-    input#nick(type="text")
-    input#email(type="text")
-    textarea#commentBox
-    input#submit(type="submit", value="Comment as...") 
-    section
+    section#form
+      #text
+        textarea#commentBox= "Leave a message."
+      input#nick(type="text", placeholder= "Name")
+      input#email(type="text", placeholder= "Email")
+      input#submit(type="submit", value="Comment") 
+    section#comments
       - for comment in comments
         article
-          p= comment.author.nickname
-          p= comment.author.email
-          p= comment.msg
-          p= comment.date
+          img.avatar(src= comment.author.avatar)
+          span.nick= comment.author.nickname
+          span.date= comment.date
+          .post-body
+            p= comment.msg
   script(src="/socket.io/socket.io.js")
   script(src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js")
   script(src="/js/script.js")
