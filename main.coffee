@@ -33,7 +33,7 @@ newComment = (data, cb) ->
     author:
       nickname: data.author.nickname
       email: data.author.email
-      avatar: "http://www.gravat.com/avatar/#{crypto.createHash('md5').update(data.author.email).digest('hex')}"
+      avatar: "http://www.gravatar.com/avatar/#{crypto.createHash('md5').update(data.author.email).digest('hex')}"
     msg: data.msg
     date: new Date()
 	comment.save cb
@@ -43,10 +43,6 @@ getComment = (thread, cb) ->
 	Comment = db.model("Comment", schema)
 	Comment.find {thread: thread}, cb
 
-# Hash Function
-hashReq = (shortname, hash, hash2, cb) ->
-	cb = shortname + '/' + hash + hash2
-
 # Simple Temp random number genorator
 randNum = () ->
 	randomnumber = Math.floor(Math.random() * 11)
@@ -55,8 +51,8 @@ randNum = () ->
 # Router
 app.get '/embed/:shortname', (req, res) ->
   res.header 'Access-Control-Allow-Origin', '*'
-  hash = req.params.shortname + '/' + req.query.p + req.query.t
-  getComment 'test/index.htm2', (err, data) ->
+  hash = req.params.shortname + '/' + crypto.createHash('md5').update(req.query.p + req.query.t).digest('hex')
+  getComment 'test/index.htm3', (err, data) ->
     if (err)
       throw err
     res.render 'layout',
@@ -67,10 +63,10 @@ app.get '/embed/:shortname', (req, res) ->
 app.get '/add', (req,res) ->
 	res.send 'hello'
 	data =
-		thread: 'test/index.htm2'
+		thread: 'test/index.htm3'
 		author:
 			nickname: "Jon-test2"+randNum()
-			email: "email@something.com"
+			email: "koo.studios@gmail.com"
 		msg: "Hi!"
 		date: "Sometime"+randNum()
 

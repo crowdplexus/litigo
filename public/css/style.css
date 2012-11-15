@@ -8,6 +8,16 @@ body {
   padding: 0;
 }
 
+.error {
+  width: 100%;
+  padding: 8px;
+  color: #B94A48;
+  background-color: #F2DEDE;
+  border: 1px solid #EED3D7;
+  border-radius: 4px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
 section#form {
   border-bottom: 1px solid #EEE;
 }
@@ -76,9 +86,15 @@ input[type="text"]:focus,
 section#comments article {
   width: 100%;
   padding: 20px 10px;
-  padding-left: 100px;
+  padding-left: 60px;
   border-bottom: 1px solid #EEE;
 }
+
+  section#comments img {
+    float: left;
+    width: 50px;
+    margin-left: -60px;
+  }
 
   section#comments article .nick {
     font-weight: bold;
