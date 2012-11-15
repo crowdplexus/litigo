@@ -7,10 +7,11 @@ html
   body
     section#form
       #text
-        textarea#commentBox= "Leave a message."
-      input#nick(type="text", placeholder= "Name")
-      input#email(type="text", placeholder= "Email")
+        textarea#commentBox(data-placeholder= "Leave a message.")= "Leave a message."
+      input#nick(type="text", value="Name", data-placeholder= "Name")
+      input#email(type="text", value="Email", data-placeholder="Email")
       input#submit(type="submit", value="Comment") 
+      img(src= "/img/poweredby.png")
     section#comments
       - for comment in comments
         article

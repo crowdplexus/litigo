@@ -27,14 +27,13 @@ schema = mongoose.Schema
 
 # Database add comment function
 newComment = (data, cb) ->
-# gravatar = crypto.createHash('md5').update(data.author.email).digest('hex')
 	Comment = db.model("Comment", schema)
 	comment = new Comment
     thread: data.thread
     author:
       nickname: data.author.nickname
       email: data.author.email
-      avatar: "http://www.gravat.com/avatar/#{gravatar}"
+      avatar: "http://www.gravat.com/avatar/#{crypto.createHash('md5').update(data.author.email).digest('hex')}"
     msg: data.msg
     date: new Date()
 	comment.save cb
@@ -55,6 +54,7 @@ randNum = () ->
 		
 # Router
 app.get '/embed/:shortname', (req, res) ->
+  res.header 'Access-Control-Allow-Origin', '*'
   hash = req.params.shortname + '/' + req.query.p + req.query.t
   getComment 'test/index.htm2', (err, data) ->
     if (err)

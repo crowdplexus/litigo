@@ -42,6 +42,7 @@ So long as men can breathe or eyes can see, So long lives this and this gives li
           litigo.style.width="100%";
           litigo.src = 'http://localhost:1337/embed/' + shortname + '/?t=' + title + '&p=' + path;
           document.getElementById('thread').appendChild(litigo);
+          window.addEventListener('message', function(e) {document.querySelector('#thread iframe').height = e.data + "px";});
           })();
         </script>
       </article>
