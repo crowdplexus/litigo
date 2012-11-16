@@ -16,8 +16,17 @@ $(document).ready(function() {
     error: function (msg) {
       $('#form').append('<div class="error"><b>Warning!</b> '+msg+'</div>');
       $('.error').delay(5000).fadeOut();
+    },
+    updateTime: function() {
+      $('.date').each(function() {
+        var time = $(this).data('time');
+        $(this).html(moment(time,'ddd MMM D YYYY HH:mm:ss Z').fromNow());
+      });
     }
   };
+
+  Litigo.updateTime();
+  setInterval(Litigo.updateTime, 60000);
 
   //------------ EVENTS -----------//
 
@@ -33,11 +42,13 @@ $(document).ready(function() {
   socket.on('distribute', function(data) { 
       // Preprend this to comments
       // TODO Use templating maybe?
-      $('#comments').prepend('<article class="new"><img src="' + data.author.avatar + '"><span class="nick">' + data.author.nickname + '</span><span class="date">' + data.date + '</span><div class="post-body"><p>' + data.msg + '</p></div></article>'); parent.postMessage($(document).height(), "*"); 
+      data.date = moment(data.date + "+00:00", 'YYYY-MM-D\THH:mm:ss.SSSZ').format('ddd MMM D YYYY HH:mm:ss Z');
+      $('#comments').prepend('<article class="new"><img src="' + data.author.avatar + '"><span class="nick">' + data.author.nickname + '</span><span class="date" data-time="' + data.date + '"></span><div class="post-body"><p>' + data.msg + '</p></div></article>'); parent.postMessage($(document).height(), "*"); 
+      Litigo.updateTime();
       $('.new').animate({
         'marginTop': '0',
         'opacity': '1'
-      },200);
+      },200).removeClass('new');
   }); 
   
   // Submit form 
@@ -63,10 +74,9 @@ $(document).ready(function() {
       };
 
       // Emit data back to server
-      socket.emit('comment', data, function() {
-        $('input[type="text"], #commentBox').each(function(i) {
-          $(this).val($(this).data('placeholder'));
-        });
+      socket.emit('comment', data);
+      $('input[type="text"], #commentBox').each(function(i) {
+        $(this).val($(this).data('placeholder')).css('color', '#AAA');
       });
     }
   });

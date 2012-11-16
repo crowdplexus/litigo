@@ -99,6 +99,7 @@ section#comments article {
     float: left;
     width: 50px;
     margin-left: -60px;
+    boder-radius: 20px;
   }
 
   section#comments article .nick {
@@ -111,4 +112,8 @@ section#comments article {
     margin-left: 10px;
     font-size: 0.8em;
     color: #888;
+  }
+
+  section#comments article p {
+    margin-top: 5px;
   }

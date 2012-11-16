@@ -17,9 +17,10 @@ html
         article
           img.avatar(src= comment.author.avatar)
           span.nick= comment.author.nickname
-          span.date= comment.date
+          span.date(data-time= comment.date)
           .post-body
             p= comment.msg
   script(src="/socket.io/socket.io.js")
   script(src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.8.2/jquery.min.js")
+  script(src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/1.7.2/moment.min.js")
   script(src="/js/script.js")
