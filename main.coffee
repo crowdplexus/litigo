@@ -27,21 +27,15 @@ schema = mongoose.Schema
 
 # Database add comment function
 newComment = (data, cb) ->
-	Comment = db.model("Comment", schema)
-	comment = new Comment
-    thread: data.thread
-    author:
-      nickname: data.author.nickname
-      email: data.author.email
-      avatar: "http://www.gravatar.com/avatar/#{crypto.createHash('md5').update(data.author.email).digest('hex')}"
-    msg: data.msg
-    date: new Date()
-	comment.save cb
+  data.author.avatar = "http://www.gravatar.com/avatar/#{crypto.createHash('md5').update(data.author.email).digest('hex')}"
+  data.date = new Date()
+  Comment = db.model("Comment", schema)
+  comment = new Comment(data).save cb
 
 # Database get comment function
 getComment = (thread, cb) ->
-	Comment = db.model("Comment", schema)
-	Comment.find {thread: thread}, cb
+  Comment = db.model("Comment", schema)
+  Comment.find({thread: thread}).sort({date: 'desc'}).find(cb)
 
 # Simple Temp random number genorator
 randNum = () ->

@@ -89,6 +89,11 @@ section#comments article {
   padding-left: 60px;
   border-bottom: 1px solid #EEE;
 }
+  
+  section#comments article.new {
+    margin-top: -50px;
+    opacity: 0;
+  }
 
   section#comments img {
     float: left;

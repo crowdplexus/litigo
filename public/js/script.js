@@ -30,7 +30,14 @@ $(document).ready(function() {
 
 
   // Distribute!
-  socket.on('distribute', function(data) { $('#comments').append('<article><img src="' + data.author.avatar + '"><span class="nick">' + data.author.nickname + '</span><span class="date">' + data.date + '</span><div class="post-body"><p>' + data.msg + '</p></div></article>'); parent.postMessage($(document).height(), "*"); 
+  socket.on('distribute', function(data) { 
+      // Preprend this to comments
+      // TODO Use templating maybe?
+      $('#comments').prepend('<article class="new"><img src="' + data.author.avatar + '"><span class="nick">' + data.author.nickname + '</span><span class="date">' + data.date + '</span><div class="post-body"><p>' + data.msg + '</p></div></article>'); parent.postMessage($(document).height(), "*"); 
+      $('.new').animate({
+        'marginTop': '0',
+        'opacity': '1'
+      },200);
   }); 
   
   // Submit form 
